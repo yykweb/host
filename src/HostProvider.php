@@ -12,7 +12,7 @@ class HostProvider extends Provider
 
     public function register() {
         $this->app->single( 'Host', function (  ) {
-            return new Host(  );
+            return new Host();
         } );
     }
 }
