@@ -20,17 +20,37 @@ class Base
     public function get( $api_type,$api_data,$order_id) {
         //构造要请求的参数数组，无需改动//获取API接口请求配置项
         $data = [
-            "api_url"       => 'http://api.west263.com/api/',//$this->config['api_url'],
-            "api_user"      => 'apidemo',//$this->config['api_user'],
-            "api_pass"      => 'west263apidemo'//$this->config['api_pass']
+            "api_url"       => $this->config['api_url'],
+            "api_user"      => $this->config['api_user'],
+            "api_pass"      => $this->config['api_pass']
         ];
-        $api = $api_type;
+        $api = '';
+        switch($api_type)
+        {
+            case 'add':
+                $api = "vhost\r\nadd\r\n";
+                break;
+            case 'mod':
+                $api = "vhost\r\nmod\r\n";
+                break;
+            case 'renewal':
+                $api = "vhost\r\nrenewal\r\n";
+                break;
+            case 'paytest':
+                $api = "vhost\r\npaytest\r\n";
+                break;
+            case 'set':
+                $api = "vhost\r\nset\r\n";
+                break;
+            case 'get':
+                $api = "vhost\r\nget\r\n";
+                break;
+        }
         //数组拼接字符串
         $api .= $this->create_string($api_data)."."."\r\n";
         //建立请求
         $md5 = md5($data['api_user'].$data['api_pass'].substr($api,0,10));
         $post_url = $data['api_url']."?userid=".$data['api_user']."&versig=".$md5."&strCmd=".urlencode($api);
-        //return $post_url;
         $return = file_get_contents($post_url);
         $xml = simplexml_load_string($return);
         if($xml->returncode != '200')
@@ -38,8 +58,7 @@ class Base
             Log::write("Error:".iconv( "UTF-8", "gb2312//IGNORE" , $xml->returnmsg)."\t".iconv("UTF-8","gb2312//IGNORE","订单号：").$order_id."\r\n",Log::ERROR);
             return "提交失败！请联系管理员！";
         }
-        return $xml;
-        //return json_decode(json_encode(simplexml_load_string($return)),TRUE);
+        return json_decode(json_encode(simplexml_load_string($return)),TRUE);
     }
 
     //数组转字符串

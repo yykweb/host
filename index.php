@@ -21,10 +21,14 @@ $data = array(
     "ppricetemp"=>"198"
 );
 
+$type = array(
+
+);
+
 //$data = array(
 //    "entityname"=>"domain-check",
 //    "domainname"=>"test",
 //    "suffix"=>".com,.cn"
 //);
 
-print_r(\yykweb\host\Host::get("vhost\r\nadd\r\n",$data,'201701070001'));
+print_r(\yykweb\host\Host::get("add",$data,'201701070001'));
