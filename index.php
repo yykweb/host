@@ -27,4 +27,4 @@ $data = array(
 //    "suffix"=>".com,.cn"
 //);
 
-print_r(\yykweb\host\Host::get("vhost\r\nadd\r\n",$data));
+print_r(\yykweb\host\Host::get("vhost\r\nadd\r\n",$data,'201701070001'));

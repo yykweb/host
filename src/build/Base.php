@@ -17,7 +17,7 @@ class Base
      * @param $api_data
      * @return \SimpleXMLElement|string
      */
-    public function get( $api_type,$api_data ) {
+    public function get( $api_type,$api_data,$order_id) {
         //构造要请求的参数数组，无需改动//获取API接口请求配置项
         $data = [
             "api_url"       => 'http://api.west263.com/api/',//$this->config['api_url'],
@@ -35,8 +35,8 @@ class Base
         $xml = simplexml_load_string($return);
         if($xml->returncode != '200')
         {
-            Log::WARNING;
-            return "Error:".iconv( "UTF-8", "gb2312//IGNORE" , $xml->returnmsg);
+            Log::write("Error:".iconv( "UTF-8", "gb2312//IGNORE" , $xml->returnmsg)."\t".iconv("UTF-8","gb2312//IGNORE","订单号：").$order_id."\r\n",Log::ERROR);
+            return "提交失败！请联系管理员！";
         }
         return $xml;
         //return json_decode(json_encode(simplexml_load_string($return)),TRUE);
