@@ -45,6 +45,12 @@ class Base
             case 'get':
                 $api = "vhost\r\nget\r\n";
                 break;
+            case 'traffic':
+                $api = "vhost\r\ntraffic\r\n";
+                break;    
+            default:
+                $api = "other\r\nget\r\n";
+                break;
         }
         //数组拼接字符串
         $api .= $this->create_string($api_data)."."."\r\n";
